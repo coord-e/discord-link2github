@@ -1,0 +1,23 @@
+{
+  "name": "discord-github-link",
+  "version": "1.0.0",
+  "description": "A Discord Bot that links issues or PRs to GitHub automatically",
+  "main": "index.js",
+  "repository": "https://github.com/coord-e/discord-github-link",
+  "author": "coord.e",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "eslint": ">=4.18.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": ">=2.8.0",
+    "eslint-plugin-node": ">=5.2.1",
+    "eslint-plugin-promise": ">=3.6.0",
+    "eslint-plugin-standard": ">=3.0.1"
+  }
+}
