@@ -24,13 +24,13 @@ const checkUrl = async (url) => {
   }
 }
 
-const replyWithRepo = (msg, repo, issueorpr) => {
+const replyWithRepo = async (msg, repo, issueorpr) => {
   const baseurl = `https://github.com/${repo}`
   const issueurl = `${baseurl}/issues/${issueorpr}`
   const prurl = `${baseurl}/pull/${issueorpr}`
-  if (checkUrl(issueurl)) {
+  if (await checkUrl(issueurl)) {
     msg.channel.send(issueurl)
-  } else if (checkUrl(prurl)) {
+  } else if (await checkUrl(prurl)) {
     msg.channel.send(prurl)
   }
 }
@@ -53,7 +53,7 @@ client.on('message', async msg => {
     let match
     while ((match = re.exec(msg.cleanContent)) !== null) {
       const repo = `${match[1]}/${match[2]}`
-      replyWithRepo(msg, repo, match[3])
+      await replyWithRepo(msg, repo, match[3])
       return
     }
   }
@@ -68,7 +68,7 @@ client.on('message', async msg => {
         return
       }
       const issueorpr = match[1]
-      replyWithRepo(msg, repo, issueorpr)
+      await replyWithRepo(msg, repo, issueorpr)
     }
   }
 })
