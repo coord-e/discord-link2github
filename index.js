@@ -24,6 +24,17 @@ const check_url = async (url) => {
   }
 }
 
+const reply_with_repo = (msg, repo, issueorpr) => {
+  const baseurl = `https://github.com/${repo}`
+  const issueurl = `${baseurl}/issues/${issueorpr}`
+  const prurl = `${baseurl}/pulls/${issueorpr}`
+  if(check_url(issueurl)) {
+    msg.channel.send(issueurl)
+  } else if (check_url(prurl)) {
+    msg.channel.send(prurl)
+  }
+}
+
 client.on('message', async msg => {
   if (msg.isMemberMentioned(client.user)) {
     const match = msg.content.match(/set to (.+\/.+)/)
@@ -36,21 +47,26 @@ client.on('message', async msg => {
     msg.reply(`set to ${repo}`)
     return
   }
-  const match = msg.content.match(/#(\d+)/)
-  if (match) {
-    const repo = await pget(msg.channel.toString())
-    if (!repo) {
-      msg.reply('Please set repo first')
+
+  {
+    const match = msg.content.match(/(\w+)\/(\w+)#(\d+)/)
+    if (match) {
+      const repo = `${match[1]}/${match[2]}`
+      reply_with_repo(msg, repo, match[3])
       return
     }
-    const issueorpr = match[1]
-    const baseurl = `https://github.com/${repo}`
-    const issueurl = `${baseurl}/issues/${issueorpr}`
-    const prurl = `${baseurl}/pulls/${issueorpr}`
-    if(check_url(issueurl)) {
-      msg.channel.send(issueurl)
-    } else if (check_url(prurl)) {
-      msg.channel.send(prurl)
+  }
+
+  {
+    const match = msg.content.match(/#(\d+)/)
+    if (match) {
+      const repo = await pget(msg.channel.toString())
+      if (!repo) {
+        msg.reply('Please set repo first')
+        return
+      }
+      const issueorpr = match[1]
+      reply_with_repo(msg, repo, issueorpr)
     }
   }
 })
