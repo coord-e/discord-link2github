@@ -19,9 +19,9 @@ const check_url = async (url) => {
 
 client.on('message', async msg => {
   if (msg.isMemberMentioned(client.user)) {
-    const match = msg.content.match(/"(.+\/.+)"/)
+    const match = msg.content.match(/set to (.+\/.+)/)
     if (!match) {
-      msg.reply('Invalid')
+      msg.reply('Invalid! format: "set to User/Repo"')
       return
     }
     const repo = match[1]
