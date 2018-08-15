@@ -1,6 +1,13 @@
 const rp = require('request-promise')
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const Redis = require("redis")
+const redis = Redis.createClient()
+
+
+redis.on("error", (err) => {
+  console.error("Redis Error: " + err);
+});
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
