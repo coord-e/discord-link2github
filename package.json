@@ -1,9 +1,9 @@
 {
-  "name": "discord-github-link",
+  "name": "discord-link2github",
   "version": "1.0.0",
   "description": "A Discord Bot that links issues or PRs to GitHub automatically",
   "main": "index.js",
-  "repository": "https://github.com/coord-e/discord-github-link",
+  "repository": "https://github.com/coord-e/discord-link2github",
   "author": "coord.e",
   "license": "MIT",
   "private": false,

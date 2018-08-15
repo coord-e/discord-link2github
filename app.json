@@ -1,7 +1,7 @@
 {
   "name": "Link2GitHub",
   "description": "Discord Bot that links issue/PR to GitHub automatically",
-  "repository": "https://github.com/coord-e/discord-github-link",
+  "repository": "https://github.com/coord-e/discord-link2github",
   "env": {
     "DISCORD_TOKEN": {
       "description": "Discord Bot token",
