@@ -37,7 +37,7 @@ const reply_with_repo = (msg, repo, issueorpr) => {
 
 client.on('message', async msg => {
   if (msg.isMemberMentioned(client.user)) {
-    const match = msg.content.match(/set to (.+\/.+)/)
+    const match = msg.cleanContent.match(/set to (.+\/.+)/)
     if (!match) {
       msg.reply('Invalid! format: "set to User/Repo"')
       return
@@ -49,7 +49,7 @@ client.on('message', async msg => {
   }
 
   {
-    const match = msg.content.match(/([a-zA-Z\-]+)\/([a-zA-Z\-.]+)#(\d+)/)
+    const match = msg.cleanContent.match(/([a-zA-Z\-]+)\/([a-zA-Z\-.]+)#(\d+)/)
     if (match) {
       const repo = `${match[1]}/${match[2]}`
       reply_with_repo(msg, repo, match[3])
@@ -58,7 +58,7 @@ client.on('message', async msg => {
   }
 
   {
-    const match = msg.content.match(/#(\d+)/)
+    const match = msg.cleanContent.match(/#(\d+)/)
     if (match) {
       const repo = await pget(msg.channel.toString())
       if (!repo) {
