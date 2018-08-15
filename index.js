@@ -27,7 +27,7 @@ const checkUrl = async (url) => {
 const replyWithRepo = (msg, repo, issueorpr) => {
   const baseurl = `https://github.com/${repo}`
   const issueurl = `${baseurl}/issues/${issueorpr}`
-  const prurl = `${baseurl}/pulls/${issueorpr}`
+  const prurl = `${baseurl}/pull/${issueorpr}`
   if (checkUrl(issueurl)) {
     msg.channel.send(issueurl)
   } else if (checkUrl(prurl)) {
