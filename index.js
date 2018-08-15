@@ -1,12 +1,19 @@
 const rp = require('request-promise')
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const Redis = require("redis")
+const redis = Redis.createClient()
+const {promisify} = require('util')
+const pget = promisify(redis.get).bind(redis)
+const pset = promisify(redis.set).bind(redis)
+
+redis.on("error", (err) => {
+  console.error("Redis Error: " + err);
+});
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
-
-const chan2repo = new Map()
 
 const check_url = async (url) => {
   try {
@@ -25,18 +32,19 @@ client.on('message', async msg => {
       return
     }
     const repo = match[1]
-    chan2repo.set(msg.channel, repo)
+    await pset(msg.channel.toString(), repo)
     msg.reply(`set to ${repo}`)
     return
   }
   const match = msg.content.match(/#(\d+)/)
   if (match) {
-    if (!chan2repo.has(msg.channel)) {
+    const repo = await pget(msg.channel.toString())
+    if (!repo) {
       msg.reply('Please set repo first')
       return
     }
     const issueorpr = match[1]
-    const baseurl = `https://github.com/${chan2repo.get(msg.channel)}`
+    const baseurl = `https://github.com/${repo}`
     const issueurl = `${baseurl}/issues/${issueorpr}`
     const prurl = `${baseurl}/pulls/${issueorpr}`
     if(check_url(issueurl)) {
