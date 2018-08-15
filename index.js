@@ -17,7 +17,7 @@ client.on('ready', () => {
 
 const checkUrl = async (url) => {
   try {
-    const res = await rp({url, followRedirect: false})
+    const res = await rp({url, method: 'HEAD', followRedirect: false})
     return true
   } catch (e) {
     return false
