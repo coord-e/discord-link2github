@@ -49,7 +49,7 @@ client.on('message', async msg => {
   }
 
   {
-    const match = msg.content.match(/(\w+)\/(\w+)#(\d+)/)
+    const match = msg.content.match(/([a-zA-Z\-]+)\/([a-zA-Z\-.]+)#(\d+)/)
     if (match) {
       const repo = `${match[1]}/${match[2]}`
       reply_with_repo(msg, repo, match[3])
