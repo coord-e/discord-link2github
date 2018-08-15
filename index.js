@@ -1,21 +1,21 @@
 const rp = require('request-promise')
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const Redis = require("redis")
+const Redis = require('redis')
 const redis = Redis.createClient(process.env.REDIS_URL)
 const {promisify} = require('util')
 const pget = promisify(redis.get).bind(redis)
 const pset = promisify(redis.set).bind(redis)
 
-redis.on("error", (err) => {
-  console.error("Redis Error: " + err);
-});
+redis.on('error', (err) => {
+  console.error('Redis Error: ' + err)
+})
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
-const check_url = async (url) => {
+const checkUrl = async (url) => {
   try {
     await rp(url)
     return true
@@ -24,20 +24,20 @@ const check_url = async (url) => {
   }
 }
 
-const reply_with_repo = (msg, repo, issueorpr) => {
+const replyWithRepo = (msg, repo, issueorpr) => {
   const baseurl = `https://github.com/${repo}`
   const issueurl = `${baseurl}/issues/${issueorpr}`
   const prurl = `${baseurl}/pulls/${issueorpr}`
-  if(check_url(issueurl)) {
+  if (checkUrl(issueurl)) {
     msg.channel.send(issueurl)
-  } else if (check_url(prurl)) {
+  } else if (checkUrl(prurl)) {
     msg.channel.send(prurl)
   }
 }
 
 client.on('message', async msg => {
   if (msg.isMemberMentioned(client.user)) {
-    const match = msg.cleanContent.match(/set to ([a-zA-Z\-]+\/[a-zA-Z\-.]+)/)
+    const match = msg.cleanContent.match(/set to ([a-zA-Z-]+\/[a-zA-Z-.]+)/)
     if (!match) {
       msg.reply('Invalid! format: "set to User/Repo"')
       return
@@ -49,18 +49,18 @@ client.on('message', async msg => {
   }
 
   {
-    const re = /([a-zA-Z\-]+)\/([a-zA-Z\-.]+)#(\d+)/g
-    let match;
+    const re = /([a-zA-Z-]+)\/([a-zA-Z-.]+)#(\d+)/g
+    let match
     while ((match = re.exec(msg.cleanContent)) !== null) {
       const repo = `${match[1]}/${match[2]}`
-      reply_with_repo(msg, repo, match[3])
+      replyWithRepo(msg, repo, match[3])
       return
     }
   }
 
   {
     const re = /(?:#|GH-)(\d+)/g
-    let match;
+    let match
     while ((match = re.exec(msg.cleanContent)) !== null) {
       const repo = await pget(msg.channel.toString())
       if (!repo) {
@@ -68,7 +68,7 @@ client.on('message', async msg => {
         return
       }
       const issueorpr = match[1]
-      reply_with_repo(msg, repo, issueorpr)
+      replyWithRepo(msg, repo, issueorpr)
     }
   }
 })
