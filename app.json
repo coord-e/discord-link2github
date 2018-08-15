@@ -1,0 +1,14 @@
+{
+  "name": "Link2GitHub",
+  "description": "Discord Bot that links issue/PR to GitHub automatically",
+  "repository": "https://github.com/coord-e/discord-github-link",
+  "env": {
+    "DISCORD_TOKEN": {
+      "description": "Discord Bot token",
+      "value": ""
+    }
+  },
+  "addons": [
+    "heroku-redis:hobby-dev"
+  ]
+}
