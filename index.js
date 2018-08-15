@@ -17,11 +17,11 @@ client.on('ready', () => {
 
 const checkUrl = async (url) => {
   try {
-    await rp(url)
+    const res = await rp({url, followRedirect: false})
+    return true
   } catch (e) {
     return false
   }
-  return true
 }
 
 const replyWithRepo = (msg, repo, issueorpr) => {
