@@ -47,4 +47,4 @@ client.on('message', async msg => {
   }
 })
 
-client.login('token');
+client.login(process.env.DISCORD_TOKEN)
