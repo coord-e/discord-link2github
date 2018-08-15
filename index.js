@@ -49,8 +49,9 @@ client.on('message', async msg => {
   }
 
   {
-    const match = msg.cleanContent.match(/([a-zA-Z\-]+)\/([a-zA-Z\-.]+)#(\d+)/)
-    if (match) {
+    const re = /([a-zA-Z\-]+)\/([a-zA-Z\-.]+)#(\d+)/g
+    let match;
+    while ((match = re.exec(msg.cleanContent)) !== null) {
       const repo = `${match[1]}/${match[2]}`
       reply_with_repo(msg, repo, match[3])
       return
@@ -58,8 +59,9 @@ client.on('message', async msg => {
   }
 
   {
-    const match = msg.cleanContent.match(/(#|GH-)(\d+)/)
-    if (match) {
+    const re = /(#|GH-)(\d+)/g
+    let match;
+    while ((match = re.exec(msg.cleanContent)) !== null) {
       const repo = await pget(msg.channel.toString())
       if (!repo) {
         msg.reply('Please set repo first')
