@@ -18,10 +18,10 @@ client.on('ready', () => {
 const checkUrl = async (url) => {
   try {
     await rp(url)
-    return true
   } catch (e) {
     return false
   }
+  return true
 }
 
 const replyWithRepo = (msg, repo, issueorpr) => {
