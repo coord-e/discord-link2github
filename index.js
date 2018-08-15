@@ -8,6 +8,15 @@ client.on('ready', () => {
 
 const chan2repo = new Map()
 
+const check_url = async (url) => {
+  try {
+    await rp(url)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 client.on('message', async msg => {
   if (msg.isMemberMentioned(client.user)) {
     const match = msg.content.match(/"(.+\/.+)"/)
@@ -27,13 +36,12 @@ client.on('message', async msg => {
       return
     }
     const issueorpr = match[1]
-    try {
-      const issueurl = `https://github.com/${chan2repo.get(msg.channel)}/issues/${issueorpr}`
-      await rp(issueurl)
+    const baseurl = `https://github.com/${chan2repo.get(msg.channel)}`
+    const issueurl = `${baseurl}/issues/${issueorpr}`
+    const prurl = `${baseurl}/pulls/${issueorpr}`
+    if(check_url(issueurl)) {
       msg.channel.send(issueurl)
-    } catch (e) {
-      const prurl = `https://github.com/${chan2repo.get(msg.channel)}/pulls/${issueorpr}`
-      await rp(prurl)
+    } else if (check_url(prurl)) {
       msg.channel.send(prurl)
     }
   }
