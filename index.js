@@ -37,7 +37,7 @@ const reply_with_repo = (msg, repo, issueorpr) => {
 
 client.on('message', async msg => {
   if (msg.isMemberMentioned(client.user)) {
-    const match = msg.cleanContent.match(/set to (.+\/.+)/)
+    const match = msg.cleanContent.match(/set to ([a-zA-Z\-]+\/[a-zA-Z\-.]+)/)
     if (!match) {
       msg.reply('Invalid! format: "set to User/Repo"')
       return
