@@ -1,5 +1,9 @@
 # Link2GitHub
 
+
+![David](https://img.shields.io/david/coord-e/discord-link2github.svg?style=flat-square)
+![David](https://img.shields.io/david/dev/coord-e/discord-link2github.svg?style=flat-square)
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coord-e/discord-link2github/tree/develop)
 
 A Discord bot that links issues/PRs to GitHub automatically
