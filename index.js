@@ -59,7 +59,7 @@ client.on('message', async msg => {
   }
 
   {
-    const re = /(#|GH-)(\d+)/g
+    const re = /(?:#|GH-)(\d+)/g
     let match;
     while ((match = re.exec(msg.cleanContent)) !== null) {
       const repo = await pget(msg.channel.toString())
@@ -67,7 +67,7 @@ client.on('message', async msg => {
         msg.reply('Please set repo first')
         return
       }
-      const issueorpr = match[2]
+      const issueorpr = match[1]
       reply_with_repo(msg, repo, issueorpr)
     }
   }
